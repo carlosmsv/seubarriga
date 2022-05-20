@@ -5,7 +5,7 @@ const app = require('../src/app');
 test('Deve responder na raiz', () => {
   // esse return funciona como uma promise, posso fazer um get, ver status 200 e etc
   return request(app).get('/')
-    .then(res => {
+    .then((res) => {
       expect(res.status).toBe(200)
     })
 })
