@@ -44,5 +44,6 @@ test('Não deve inserir usuário sem senha', (done) => {
       expect(res.body.error).toBe('Senha é um atributo obrigatório');
       done();
     })
+    .catch(err => done.fail(err))
     
 })
