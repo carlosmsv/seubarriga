@@ -27,7 +27,7 @@ test('Não deve inserir uma conta sem nome', () => {
     })
 })
 
-test.skip('Não deve inserir uma conta de um nome duplicado, para o mesmo usuário', () => { });
+test.skip('Não deve inserir uma conta de nome duplicado, para o mesmo usuário', () => { });
 
 test('Deve listar todas as contas', () => {
   return app.db('accounts')
@@ -65,7 +65,7 @@ test('Deve alterar uma conta', () => {
       })
 }); 
 
-test.skip('Não deve remover uma conta de outro usuário', () => { });
+test.skip('Não deve alterar uma conta de outro usuário', () => { });
 
 test('Deve remover uma conta', () => {
   return app.db('accounts')
@@ -73,3 +73,5 @@ test('Deve remover uma conta', () => {
     .then(acc => request(app).delete(`${MAIN_ROUTE}/${acc[0].id}`))
     .then(res => expect(res.status).toBe(204));
 });
+
+test.skip('Não deve remover uma conta de outro usuário', () => { });
