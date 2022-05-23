@@ -1,7 +1,8 @@
 module.exports = (app) => {
-  const create = (req, res) => {
+  const create = async (req, res) => {
     app.services.accounts.save(req.body)
       .then((result) => {
+        if(result.error) return res.status(400).json(result);
         return res.status(201).json(result[0]);
       });
   };

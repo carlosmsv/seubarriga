@@ -11,12 +11,21 @@ beforeAll( async () => {
 
 test('Deve inserir uma conta com sucesso', () => {
   return request(app).post(MAIN_ROUTE)
-    .send({name: 'Acc #1', user_id: user.id})
+    .send({ name: 'Acc #1', user_id: user.id })
     .then((result) => {
       expect(result.status).toBe(201);
       expect(result.body.name).toBe('Acc #1');
     })
 });
+
+test('Não deve inserir uma conta sem nome', () => {
+  return request(app).post(MAIN_ROUTE)
+    .send({ user_id: user.id })
+    .then((result) => {
+      expect(result.status).toBe(400);
+      expect(result.body.error).toBe('Nome é um atributo obrigatório');
+    })
+})
 
 test('Deve listar todas as contas', () => {
   return app.db('accounts')
