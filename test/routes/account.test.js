@@ -27,6 +27,8 @@ test('Não deve inserir uma conta sem nome', () => {
     })
 })
 
+test.skip('Não deve inserir uma conta de um nome duplicado, para o mesmo usuário', () => { });
+
 test('Deve listar todas as contas', () => {
   return app.db('accounts')
     .insert({name:'Acc list', user_id: user.id})
@@ -36,6 +38,8 @@ test('Deve listar todas as contas', () => {
       expect(res.body.length).toBeGreaterThan(0);
     })
 });
+
+test.skip('Deve listar apenas as contas do usuário', () => { })
 
 test('Deve retornar uma conta por Id', () => {
   return app.db('accounts')
@@ -48,6 +52,8 @@ test('Deve retornar uma conta por Id', () => {
     });
 });
 
+test.skip('Não deve retornar uma conta de outro usuário', () => { });
+
 test('Deve alterar uma conta', () => {
   return app.db('accounts')
     .insert({name:'Acc by id', user_id: user.id}, ['id'])
@@ -58,6 +64,8 @@ test('Deve alterar uma conta', () => {
         expect(res.body.name).toBe('Acc Updated');
       })
 }); 
+
+test.skip('Não deve remover uma conta de outro usuário', () => { });
 
 test('Deve remover uma conta', () => {
   return app.db('accounts')
