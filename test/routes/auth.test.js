@@ -11,8 +11,8 @@ test('Deve receber token ao logar', () => {
       expect(res.status).toBe(200);
       //console.log(res.body) para ver o token
       expect(res.body).toHaveProperty('token');
-    })
-})
+    });
+});
 
 test('Deve autenticar usuário com senha errada', () => {
   const mail = `${Date.now()}@mail.com`
@@ -23,8 +23,8 @@ test('Deve autenticar usuário com senha errada', () => {
     .then((res) => {
       expect(res.status).toBe(400);
       expect(res.body.error).toBe('Usuário inexistente ou senha incorreta');
-    })
-})
+    });
+});
 
 test('Não deve autenticar usuário que não existe', () => {
   return request(app).post('/auth/signin')
@@ -32,5 +32,12 @@ test('Não deve autenticar usuário que não existe', () => {
     .then((res) => {
       expect(res.status).toBe(400);
       expect(res.body.error).toBe('Usuário inexistente ou senha incorreta');
-    })
-})
+    });
+});
+
+test('Não deve acesar uma rota protegida sem token', () => {
+  return request(app).get('/users')
+    .then((res) => {
+      expect(res.status).toBe(401);
+    });
+});

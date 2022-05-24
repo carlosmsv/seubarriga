@@ -2,7 +2,7 @@ const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt-nodejs')
 const ValidationError = require('../errors/ValidationError')
 
-const secret= 'Segredo!';
+const secret = 'Segredo!';
 
 module.exports = (app) =>{
   const signin = (req, res, next) => {
