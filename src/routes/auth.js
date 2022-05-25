@@ -1,11 +1,14 @@
+const express = require('express');
 const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt-nodejs')
-const ValidationError = require('../errors/ValidationError')
+const ValidationError = require('../errors/ValidationError');
 
 const secret = 'Segredo!';
 
 module.exports = (app) =>{
-  const signin = (req, res, next) => {
+  const router = express.Router();
+
+  router.post('/signin', (req, res, next) => {
     app.services.user.findOne({ mail: req.body.mail })
     .then((user) => {
       if (!user) throw new ValidationError('Usuário inexistente ou senha incorreta');
@@ -19,7 +22,16 @@ module.exports = (app) =>{
         res.status(200).json({token})
       } else throw new ValidationError('Usuário inexistente ou senha incorreta');
     }).catch(err => next(err));
-  }; 
+  });
+  
+  router.post('/signup', async (req, res, next) => {
+    try {
+      const result = await app.services.user.save(req.body)
+      return res.status(201).json(result[0]);
+    } catch (err) {
+      return next(err);
+    }
+  }); 
 
-  return { signin }
+  return router;
 }

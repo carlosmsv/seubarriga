@@ -3,7 +3,7 @@ const app = require('../../src/app');
 const jwt = require('jwt-simple');
 
 
-const MAIN_ROUTE = '/accounts'; 
+const MAIN_ROUTE = '/v1/accounts'; 
 let user;
 
 beforeAll( async () => {
