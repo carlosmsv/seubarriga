@@ -62,7 +62,8 @@ test('Deve listar apenas as contas do usuário', () => {
 test('Deve retornar uma conta por Id', () => {
   return app.db('accounts')
     .insert({name:'Acc by id', user_id: user.id}, ['id'])
-    .then(acc => request(app).get(`${MAIN_ROUTE}/${acc[0].id}`).set('authorization', `bearer ${user.token}`))
+    .then(acc => request(app).get(`${MAIN_ROUTE}/${acc[0].id}`)
+    .set('authorization', `bearer ${user.token}`))
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.name).toBe('Acc by id');
@@ -70,7 +71,17 @@ test('Deve retornar uma conta por Id', () => {
     });
 });
 
-test.skip('Não deve retornar uma conta de outro usuário', () => { });
+test('Não deve retornar uma conta de outro usuário', () => {
+  return app.db('accounts')
+  .insert({name:'Acc User #2', user_id: user2.id}, ['id'])
+  .then(acc => request(app).get(`${MAIN_ROUTE}/${acc[0].id}`)
+    .set('authorization', `bearer ${user.token}`))
+    .then(res => { 
+      expect(res.status).toBe(403);
+      expect(res.body.error).toBe('Este recurso não pertence ao usuário');
+    })
+  
+});
 
 test('Deve alterar uma conta', () => {
   return app.db('accounts')
