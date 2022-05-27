@@ -14,8 +14,14 @@ module.exports = (app) => {
   }
 
   const save = (transaction) => {
+    const newTransaction = { ...transaction }
+    if ((transaction.type === 'I' && transaction.amount <0)
+      || (transaction.type === 'O' && transaction.amount >0)) {
+        newTransaction.amount *= -1; 
+      }
+    
     return app.db('transactions')
-      .insert(transaction, '*')
+      .insert(newTransaction, '*')
   }
 
   const update = (id, transaction) => {

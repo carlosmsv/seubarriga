@@ -45,6 +45,29 @@ test('Deve inserir uma transação com sucesso', () => {
     .then((res) => {
       expect(res.status).toBe(201);
       expect(res.body.acc_id).toBe(accUser.id);
+      expect(res.body.amount).toBe("100.0")
+    });
+});
+
+test('Transações de entrada devem ser positivas', () => {
+  return request(app).post(MAIN_ROUTE)
+    .set('authorization', `bearer ${user.token}`)
+    .send({description: "New T", date: new Date(), amount: -100, type:"I", acc_id: accUser.id})
+    .then((res) => {
+      expect(res.status).toBe(201);
+      expect(res.body.acc_id).toBe(accUser.id);
+      expect(res.body.amount).toBe("100.0")
+    });
+});
+
+test('Transações de saída devem ser negativas', () => {
+  return request(app).post(MAIN_ROUTE)
+    .set('authorization', `bearer ${user.token}`)
+    .send({description: "New T", date: new Date(), amount: 100, type:"I", acc_id: accUser.id})
+    .then((res) => {
+      expect(res.status).toBe(201);
+      expect(res.body.acc_id).toBe(accUser.id);
+      expect(res.body.amount).toBe("-100.0")
     });
 });
 
