@@ -9,5 +9,11 @@ module.exports = (app) => {
       .catch(err => next(err))
   });
 
+  router.post('/', (req,res,next) => {
+    app.services.transaction.save(req.body)
+      .then(result => res.status(201).json(result[0]))
+      .catch(err => next(err))
+  })
+
   return router;
 };
