@@ -71,37 +71,45 @@ test('Transações de saída devem ser negativas', () => {
     });
 });
 
-test('Não deve inserir uma transação sem descrição', () => {
-  return request(app).post(MAIN_ROUTE)
-    .set('authorization', `bearer ${user.token}`)
-    .send({date: new Date(), amount: 100, type:"I", acc_id: accUser.id})
-    .then((res) => {
-      expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Descrição é um atributo obrigatório");
-    })
-});
-test('Não deve inserir uma transação sem valor', () => {
-  return request(app).post(MAIN_ROUTE)
-    .set('authorization', `bearer ${user.token}`)
-    .send({description: "New T", date: new Date(), type:"I", acc_id: accUser.id})
-    .then((res) => {
-      expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Valor é um atributo obrigatório");
-    })
+describe("Ao tentar inserir uma transação válida", () => {
+  //O accUser é populado dinamicamente, mas a const ValidTransaction tava sendo populada antes mesmo do beforAll executar, então em vez de:
+  //const validTransaction = {description: "New T", date: new Date(), amount: 100, type:"I", acc_id: accUser.id}
+  //Deve ser feito:
+  let validTransaction;
+
+  //Este beforeALl vai ser executado apenas dentro desse bloco, e após o outro beforeAll lá de cima
+  beforeAll(() => {
+    validTransaction = {description: "New T", date: new Date(), amount: 100, type:"I", acc_id: accUser.id}
+  })
+
+  const testTemplate = (newData, errorMessage) => {
+    return request(app).post(MAIN_ROUTE)
+      .set('authorization', `bearer ${user.token}`)
+      .send({...validTransaction, ...newData})
+      .then((res) => {
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe(errorMessage);
+      })
+
+  }
+  test('Não deve inserir uma transação sem descrição', () => testTemplate({description: null}, "Descrição é um atributo obrigatório") )
   
-});
-test.skip('Não deve inserir uma transação sem data', () => {
-  
-});
-test.skip('Não deve inserir uma transação sem conta', () => {
-  
-});
-test.skip('Não deve inserir uma transação sem tipo', () => {
-  
-});
-test.skip('Não deve inserir uma transação com tipo inválido', () => {
-  
-});
+  test('Não deve inserir uma transação sem valor', () => testTemplate({amount: null}, "Valor é um atributo obrigatório") )
+
+  test.skip('Não deve inserir uma transação sem data', () => {
+    
+  });
+  test.skip('Não deve inserir uma transação sem conta', () => {
+    
+  });
+  test.skip('Não deve inserir uma transação sem tipo', () => {
+    
+  });
+  test.skip('Não deve inserir uma transação com tipo inválido', () => {
+    
+  });
+
+})
 
 test('Deve retornar uma transação por ID', () => {
   return app.db('transactions').insert(
