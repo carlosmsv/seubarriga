@@ -146,13 +146,11 @@ test('Não deve remover uma transação de outro usuário', () => {
 });
 
 test('Não deve remover conta com transação', () => {
-  console.log("AAAAAAAAAAAAa accUser.id: ", accUser.id)
   return app.db('transactions').insert(
     {description: "To delete", date: new Date(), amount: 100, type:"I", acc_id: accUser.id}, ['id'] 
   ).then(() => request(app).delete(`/v1/accounts/${accUser.id}`)
     .set('authorization', `bearer ${user.token}`)
     .then((res) => {
-      console.log(res.body)
       expect(res.status).toBe(400);
       expect(res.body.error).toBe("Essa conta possui transações associadas");
     }))  
