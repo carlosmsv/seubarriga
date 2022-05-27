@@ -72,20 +72,11 @@ test('Transações de saída devem ser negativas', () => {
 });
 
 describe("Ao tentar inserir uma transação válida", () => {
-  //O accUser é populado dinamicamente, mas a const ValidTransaction tava sendo populada antes mesmo do beforAll executar, então em vez de:
-  //const validTransaction = {description: "New T", date: new Date(), amount: 100, type:"I", acc_id: accUser.id}
-  //Deve ser feito:
-  let validTransaction;
-
-  //Este beforeALl vai ser executado apenas dentro desse bloco, e após o outro beforeAll lá de cima
-  beforeAll(() => {
-    validTransaction = {description: "New T", date: new Date(), amount: 100, type:"I", acc_id: accUser.id}
-  })
 
   const testTemplate = (newData, errorMessage) => {
     return request(app).post(MAIN_ROUTE)
       .set('authorization', `bearer ${user.token}`)
-      .send({...validTransaction, ...newData})
+      .send({description: "New T", date: new Date(), amount: 100, type:"I", acc_id: accUser.id, ...newData})
       .then((res) => {
         expect(res.status).toBe(400);
         expect(res.body.error).toBe(errorMessage);
