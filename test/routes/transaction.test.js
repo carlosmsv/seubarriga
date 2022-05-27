@@ -27,13 +27,13 @@ beforeAll(async () => {
 
 test('Deve listar apenas as transações do usuário', () => {
   return app.db('transactions').insert([
-    {description:'d1', date: new date, amount:100, type:'I', acc_id: accUser.id},
-    {description:'d2', date: new date, amount:100, type:'O', acc_id: accUser2.id}
-  ]).then(() => request(app).get(MAIN_ROUTE))
+    {description:'d1', date: new Date, amount:100, type:'I', acc_id: accUser.id},
+    {description:'d2', date: new Date, amount:100, type:'O', acc_id: accUser2.id}
+  ]).then(() => request(app).get(MAIN_ROUTE)
     .set('authorization', `bearer ${user.token}`)
-    .then((res => {
+    .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body).toHaveLength(1);
-      expect(res.body.description).toBe('d1');
+      expect(res.body[0].description).toBe('d1');
     }))
 })
