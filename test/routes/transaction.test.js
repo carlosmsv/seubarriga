@@ -87,18 +87,13 @@ describe("Ao tentar inserir uma transação válida", () => {
   
   test('Não deve inserir uma transação sem valor', () => testTemplate({amount: null}, "Valor é um atributo obrigatório") )
 
-  test.skip('Não deve inserir uma transação sem data', () => {
-    
-  });
-  test.skip('Não deve inserir uma transação sem conta', () => {
-    
-  });
-  test.skip('Não deve inserir uma transação sem tipo', () => {
-    
-  });
-  test.skip('Não deve inserir uma transação com tipo inválido', () => {
-    
-  });
+  test('Não deve inserir uma transação sem data', () => testTemplate({date: null}, "Data é um atributo obrigatório") )
+  
+  test('Não deve inserir uma transação sem conta', () => testTemplate({acc_id: null}, "Conta é um atributo obrigatório") )
+  
+  test('Não deve inserir uma transação sem tipo', () => testTemplate({type: null}, "Tipo é um atributo obrigatório") )
+  
+  test('Não deve inserir uma transação com tipo inválido', () => testTemplate({type: 'A'}, "Tipo inválido") )
 
 })
 
