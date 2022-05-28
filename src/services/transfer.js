@@ -5,5 +5,10 @@ module.exports = (app) => {
       .select();
   };
 
-  return { find };
+  const save = (transfer) => {
+    return app.db("transfers")
+      .insert(transfer, '*')
+  }
+
+  return { find, save };
 }
