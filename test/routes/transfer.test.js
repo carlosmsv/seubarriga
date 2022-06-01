@@ -154,3 +154,27 @@ describe( 'Ao alterar uma transerência válida ...', () => {
     expect(outcome.transfer_id).toBe(transferId)
   });
 });
+
+describe('Ao remover uma transferência ...', () => {
+  test('Deve retornar o status 204', () => {
+    return request(app).delete(`${MAIN_ROUTE}/10000`)
+      .set('authorization', `bearer ${TOKEN}`)
+      .then((res) => {
+        expect(res.status).toBe(204);
+      })
+    
+  });
+  test('O registro deve ter sido removido do banco', () => {
+    return app.db('transfers').where({ id: 10000 })
+    .then((result => {
+      expect(result).toHaveLength(0);
+    }))
+    
+  });
+  test('As transações associadas devem ter sido removidas', () => {
+    return app.db('transactions').where({ transfer_id: 10000 })
+    .then((result => {
+      expect(result).toHaveLength(0);
+    }))
+  });
+})
