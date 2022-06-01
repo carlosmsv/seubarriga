@@ -5,6 +5,7 @@ const app = require('../../src/app');
 
 const MAIN_ROUTE = '/v1/balance'
 const ROUTE_TRANSACTION = '/v1/transactions'
+const ROUTE_TRANSFERS = '/v1/transfers'
 const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxMDAsIm5hbWUiOiJVc2VyICMzIiwibWFpbCI6InVzZXIzQG1haWwuY29tIn0.haEEjbmL_75BKW-tuVDBSXW9djjQoTfH6t-5ot0cwP4';
 const TOKEN_GERAL = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxMDIsIm5hbWUiOiJVc2VyICM1IiwibWFpbCI6InVzZXI1QG1haWwuY29tIn0.h1wvHEq-Ij_uqPhRh3m9W97fX-WTYRITjQRpur48iYg';
 
@@ -144,8 +145,8 @@ describe('Ao calcular o saldo do usuário...', () => {
   });
 
   test('Deve considerar transferências', () => {
-    return request(app).post(ROUTE_TRANSACTION)
-      .send({ description: '1', date: new Date(), amount: 250, type:'I', acc_ori_id: 10100, acc_dest_id: 10101 })
+    return request(app).post(ROUTE_TRANSFERS)
+      .send({ description: '1', date: new Date(), amount: 250, acc_ori_id: 10100, acc_dest_id: 10101 })
       .set('authorization', `bearer ${TOKEN}`)
       .then(() => {
         return request(app).get(MAIN_ROUTE)
