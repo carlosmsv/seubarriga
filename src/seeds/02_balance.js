@@ -38,8 +38,8 @@ exports.seed = (knex) => {
       {description: '256', date: moment(), amount: 256, type:"I", acc_id: 10104, status: true},
       {description: '256', date: moment(), amount: -256, type:"O", acc_id: 10105, status: true},
       //Transf outras contas
-      {description: '256', date: moment(), amount: 512, type:"I", acc_id: 10103, status: true},
-      {description: '256', date: moment(), amount: -512, type:"O", acc_id: 10102, status: true},
+      {description: '512', date: moment(), amount: 512, type:"I", acc_id: 10103, status: true},
+      {description: '512', date: moment(), amount: -512, type:"O", acc_id: 10102, status: true},
 
     ]))
 };
