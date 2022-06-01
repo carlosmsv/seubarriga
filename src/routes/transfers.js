@@ -21,6 +21,12 @@ module.exports = (app) => {
       .then(result => res.status(200).json(result))
       .catch(err => next(err));
   });
+
+  router.put('/:id', (req, res, next) => {
+    app.services.transfer.update(req.params.id, req.body)
+      .then(result => res.status(200).json(result))
+      .catch(err => next(err));
+  });
    
   return router;
 }
