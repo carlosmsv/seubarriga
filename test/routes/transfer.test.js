@@ -101,3 +101,12 @@ describe('Ao trantar salvar uma transferência inválida ... ', () => {
   test('Não deve inserir se as contas de origem e destino forem as mesmas', () => template({ acc_dest_id: 10000 }, 'Não é possível transferir de uma conta para ela mesma'));
   test('Não deve inserir se as contas pertencerem a outro usuário', () => template({ acc_ori_id: 10002 }, 'Conta #10002 não pertence ao usuário'));
 })
+
+test('Deve retornar uma transferência por ID', () => {
+  return request(app).get(`${MAIN_ROUTE}/10000`)
+    .set('authorization', `bearer ${TOKEN}`)
+    .then((res) => {
+      expect(res.status).toBe(200);
+      expect(res.body.description).toBe('Transfer #1');
+    });
+});
