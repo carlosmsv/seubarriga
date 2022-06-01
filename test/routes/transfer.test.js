@@ -78,6 +78,11 @@ describe( 'Ao salvar uma transerência válida ...', () => {
     expect(income.transfer_id).toBe(transferId)
     expect(outcome.transfer_id).toBe(transferId)
   });
+
+  test('Ambas devem estar com o status de realizadas', () => {
+    expect(income.status).toBe(true)
+    expect(outcome.status).toBe(true)
+  });
 });
 
 describe('Ao trentar alterar uma transferência inválida ... ', () => {
