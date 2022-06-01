@@ -164,6 +164,7 @@ describe('Ao remover uma transferência ...', () => {
       })
     
   });
+  
   test('O registro deve ter sido removido do banco', () => {
     return app.db('transfers').where({ id: 10000 })
     .then((result => {
@@ -171,10 +172,22 @@ describe('Ao remover uma transferência ...', () => {
     }))
     
   });
+  
   test('As transações associadas devem ter sido removidas', () => {
     return app.db('transactions').where({ transfer_id: 10000 })
     .then((result => {
       expect(result).toHaveLength(0);
     }))
   });
+
+  test('Não deve retornar transferência de outro usuário', () => {
+    return request(app).get(`${MAIN_ROUTE}/10001`)
+      .set('authorization', `bearer ${TOKEN}`)
+      .then((res) => {
+        expect(res.status).toBe(403);
+        expect(res.body.error).toBe('Este recurso não pertence ao usuário');
+      })
+    
+  });
+
 })
