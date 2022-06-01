@@ -18,9 +18,9 @@ module.exports = (app) => {
     const accounts = await app.db('accounts').whereIn('id', [transfer.acc_dest_id, transfer.acc_ori_id])
     accounts.forEach((acc) => {
       if (acc.user_id !== parseInt(transfer.user_id, 10)) throw new ValidationError(`Conta #${acc.id} não pertence ao usuário`)
-    })
+    });
 
-    const result = await app.db("transfers").insert(transfer, '*')
+    const result = await app.db("transfers").insert(transfer, '*');
     const transferId = result[0].id;
 
     const transactions = [
