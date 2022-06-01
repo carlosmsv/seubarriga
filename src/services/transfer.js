@@ -28,7 +28,6 @@ module.exports = (app) => {
   }
 
   const save = async (transfer) => {
-    await validate(transfer);
 
     const result = await app.db("transfers").insert(transfer, '*');
     const transferId = result[0].id;
