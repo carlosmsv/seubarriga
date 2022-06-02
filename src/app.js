@@ -4,7 +4,9 @@ const knex = require('knex');
 const knexfile = require('../knexfile');
 
 // TODO criar chaveamento dinâmico
-app.db = knex(knexfile.test);
+if (process.env.NODE_ENV == 'prod') app.db = knex(knexfile.prod);
+else app.db = knex(knexfile.test);
+
 
 consign({ cwd: 'src' , verbose: false })
   .include('./config/passport.js')
