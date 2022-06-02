@@ -1,6 +1,5 @@
 const app = require('express')();
 const consign = require('consign');
-const { query } = require('express');
 const knex = require('knex');
 const knexfile = require('../knexfile');
 
